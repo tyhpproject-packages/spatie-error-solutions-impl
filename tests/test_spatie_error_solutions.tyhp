@@ -1,10 +1,5 @@
 <?tyhp
 
-function test_spatie_error_solutions_package_loads(): bool
-{
-    return true;
-}
-
 function test_base_solution(): \Spatie\ErrorSolutions\Contracts\BaseSolution
 {
     return \Spatie\ErrorSolutions\Contracts\BaseSolution::create('Fix the title');

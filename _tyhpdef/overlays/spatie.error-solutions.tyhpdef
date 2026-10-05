@@ -2,16 +2,16 @@
 /**
  * LAYER 3 (hand overlay) — Tyhp-authored. Never regenerated.
  * Path: `_tyhpdef/overlays/*.tyhpdef` (not under overlays/stubs/).
- * Solution provider lists match the repository contract.
+ * Laravel / Finder peers are unowned — extern, do not invent.
  */
 
 namespace Spatie\ErrorSolutions {
-    /**
-     * Overlay: `for()` / `get()` return provider FQCNs. The 1.1.3 phpdoc says
-     * `array<HasSolutionsForThrowable>`, but the method returns class name strings.
-     */
     // @overlay-against: class DiscoverSolutionProviders
     partial class DiscoverSolutionProviders {
+        /**
+         * Overlay: `for()` takes solution-provider group names and returns class-strings.
+         * The method returns FQCNs, which Layer 1 typed as `array<string>`.
+         */
         // @overlay-against: function for(array $types): array
         public static function for(array<int|string, string> $types): array<int, __ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>>;
 
@@ -22,9 +22,6 @@ namespace Spatie\ErrorSolutions {
         public function get(): array<int, __ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>>;
     }
 
-    /**
-     * Overlay: provider registration and throwable lookup were bare `array`.
-     */
     // @overlay-against: class SolutionProviderRepository implements \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository
     partial class SolutionProviderRepository {
         /**
@@ -42,11 +39,10 @@ namespace Spatie\ErrorSolutions {
         // @overlay-against: function registerSolutionProvider(string|\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable $solutionProvider): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository
         public function registerSolutionProvider(__ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>|\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable $solutionProvider): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository;
 
-        // @overlay-against: function registerSolutionProviders(array $solutionProviderClasses): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository
-        public function registerSolutionProviders(array<int|string, __ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>|\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable> $solutionProviderClasses): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository;
+        // @overlay-against: function registerSolutionProviders(array $solutionProviders): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository
+        public function registerSolutionProviders(array<int|string, __ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>|\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable> $solutionProviders): \Spatie\ErrorSolutions\Contracts\SolutionProviderRepository;
     }
 }
-
 namespace Spatie\ErrorSolutions\Contracts {
     // @overlay-against: interface SolutionProviderRepository
     partial interface SolutionProviderRepository {
@@ -69,7 +65,6 @@ namespace Spatie\ErrorSolutions\Contracts {
         public function registerSolutionProviders(array<int|string, __ClassName<\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable>|\Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable> $solutionProviders): self;
     }
 }
-
 namespace Spatie\ErrorSolutions\SolutionProviders {
     // @overlay-against: class BadMethodCallSolutionProvider implements \Spatie\ErrorSolutions\Contracts\HasSolutionsForThrowable
     partial class BadMethodCallSolutionProvider {
@@ -385,3 +380,6 @@ namespace Spatie\ErrorSolutions\Support\Laravel\Composer {
         public function getPrefixesPsr4(): array<string, array<int, string>>;
     }
 }
+
+extern class \Illuminate\Support\Collection;
+extern class \Symfony\Component\Finder\SplFileInfo;
